@@ -3,5 +3,7 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::DA962CAA-00CF-51C4-EF46-5F6115A45A20::net8.0::Basic.Task.WordsStatistics.WordsStatisticsTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::DA962CAA-00CF-51C4-EF46-5F6115A45A20::net8.0::TDD.GameTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA962CAA-00CF-51C4-EF46-5F6115A45A20::net8.0::HomeExercise.Tasks.ObjectComparison.ObjectComparison&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA962CAA-00CF-51C4-EF46-5F6115A45A20::net8.0::HomeExercise.Tasks.NumberValidator.NumberValidatorTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
