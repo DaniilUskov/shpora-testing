@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
@@ -15,16 +16,19 @@ public class ObjectComparison
         var expectedTsar = new Person("Ivan IV The Terrible", 54, 170, 70,
             new Person("Vasili III of Russia", 28, 170, 60, null));
 
-        // Перепишите код на использование Fluent Assertions.
-        ClassicAssert.AreEqual(actualTsar.Name, expectedTsar.Name);
-        ClassicAssert.AreEqual(actualTsar.Age, expectedTsar.Age);
-        ClassicAssert.AreEqual(actualTsar.Height, expectedTsar.Height);
-        ClassicAssert.AreEqual(actualTsar.Weight, expectedTsar.Weight);
-
-        ClassicAssert.AreEqual(expectedTsar.Parent.Name, actualTsar.Parent.Name);
-        ClassicAssert.AreEqual(expectedTsar.Parent.Age, actualTsar.Parent.Age);
-        ClassicAssert.AreEqual(expectedTsar.Parent.Height, actualTsar.Parent.Height);
-        ClassicAssert.AreEqual(expectedTsar.Parent.Parent, actualTsar.Parent.Parent);
+        using (new AssertionScope())
+        {
+            actualTsar.Name.Should().Be(expectedTsar.Name);
+            actualTsar.Age.Should().Be(expectedTsar.Age);
+            actualTsar.Height.Should().Be(expectedTsar.Height);
+            actualTsar.Weight.Should().Be(expectedTsar.Weight);
+            
+            actualTsar.Parent.Name.Should().Be(expectedTsar.Parent.Name);
+            actualTsar.Parent.Age.Should().Be(expectedTsar.Parent.Age);
+            actualTsar.Parent.Height.Should().Be(expectedTsar.Parent.Height);
+            actualTsar.Parent.Parent.Should().Be(expectedTsar.Parent.Parent);
+            
+        }
     }
 
     #region -- Simple Tsar without parents tests
@@ -84,18 +88,9 @@ public class ObjectComparison
     #endregion
     
     /*
-     * Подход с Fluent Assertions лучше, потому что в случае с CheckCurrentTsar_WithCustomEquality при добавлении
-     * новых свойств в классе Person нам пришлось бы добавлять новые условия сравнения в метод AreEqual, а в случае с
-     * Fluent Assertions достаточно будет добавить их в тест, а сравнение будет происходить автоматически.
-     *
-     * В Fluent Assertions можно также указывать какие свойства не нужно сравнивать с помощью Fluent-api интерфейса.
-     *
-     * Также сильно повысится читаемость кода, из-за того же Fluent-api интерфейса, так как цепочку методов мы можем
-     * читать как обычное предложение на английском языке.
-     *
-     * Также в случае с CheckCurrentTsar_WithCustomEquality мы по взгляду на тест не понимаем как именно мы сравниваем,
-     * чтобы понять нужно перейти в метод AreEqual, а если у нас свойств будет много, то нам и код AreEqual будет разрастаться,
-     * что приведет к трудностям в чтении кода.
+     * Подход с AssertionScope лучше, потому что если у нас например ошибка в первом сравнении, то проверки не прекратятся
+     * и в консоли тестов будет выведена более информативная ошибка. А в случае подхода с ClassicAssert у нас упадет сразу после первой
+     * ошибки, даже если следующие поля были верны.
      */
 
     [Test]

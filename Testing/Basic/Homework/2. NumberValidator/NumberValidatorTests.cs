@@ -85,52 +85,21 @@ public class NumberValidatorTests
         
         validator.IsValidNumber(null!).Should().BeFalse();
     }
-    
-    [Test]
-    public void IsValidNumber_ShouldReturnFalse_WhenInputIsEmpty()
-    {
-        var validator = new NumberValidator(3, 2, true);
-        
-        validator.IsValidNumber(string.Empty).Should().BeFalse();
-    }
 
     [Test]
-    [TestCase("abc")]
-    [TestCase("a.bc")]
-    public void IsValidNumber_ShouldReturnFalse_WhenInputIsNotNumber(string input)
+    [TestCase(3, "abc", false)]
+    [TestCase(3, "a.bc", false)]
+    [TestCase(3, "0.000", false)]
+    [TestCase(3, "-1.23", false)]
+    [TestCase(3, "+1.23", false)]
+    [TestCase(3, "", false)]
+    [TestCase(4, "0.0", true)]
+    [TestCase(4, "+1.23", true)]
+    public void IsValidNumber_ShouldReturnCorrectResult_OnDifferentInputs(int precision, string input, bool expected)
     {
-        var validator = new NumberValidator(3, 2, true);
+        var validator = new NumberValidator(precision, 2, true);
         
-        validator.IsValidNumber(input).Should().BeFalse();
-    }
-
-    [Test]
-    [TestCase("0.0")]
-    [TestCase("+1.23")]
-    public void IsValidNumber_ShouldReturnTrue_WhenInputIsValid(string input)
-    {
-        var validator = new NumberValidator(4, 2, true);
-        
-        validator.IsValidNumber(input).Should().BeTrue();
-    }
-
-    [Test]
-    [TestCase("0.000")]
-    [TestCase("-1.23")]
-    [TestCase("+1.23")]
-    public void IsValidNumber_ShouldReturnFalse_WhenInputIsNotValid(string input)
-    {
-        var validator = new NumberValidator(3, 2, true);
-        
-        validator.IsValidNumber(input).Should().BeFalse();
-    }
-
-    [Test]
-    public void IsValidNumber_ShouldReturnFalse_WhenOnlyPositiveIsTrueAndInputIsNegative()
-    {
-        var validator = new NumberValidator(3, 2, true);
-        
-        validator.IsValidNumber("-1.23").Should().BeFalse();
+        validator.IsValidNumber(input).Should().Be(expected);
     }
 
     #endregion
